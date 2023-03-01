@@ -12,3 +12,14 @@ class MovieView(View):
             "movies/movies.html",
             {"movie_list": movies}
         )
+
+
+class MovieDetailView(View):
+
+    def get(self, request, slug):
+        movie = Movie.objects.get(url=slug)
+        return render(
+            request,
+            "movies/movie_detail.html",
+            {"movie": movie}
+        )
