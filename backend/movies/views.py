@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView
 
 from .models import Movie
+from .forms import ReviewForm
 
 
 class MovieView(ListView):
@@ -18,5 +19,9 @@ class MovieDetailView(DetailView):
 class AddReview(View):
 
     def post(self, request, pk):
-        print(request.POST)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.movie_id = pk
+            form.save()
         return redirect("/")
