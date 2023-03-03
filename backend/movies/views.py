@@ -20,8 +20,9 @@ class AddReview(View):
 
     def post(self, request, pk):
         form = ReviewForm(request.POST)
+        movie = Movie.objects.get(id=pk)
         if form.is_valid():
             form = form.save(commit=False)
-            form.movie_id = pk
+            form.movie = movie
             form.save()
         return redirect("/")
