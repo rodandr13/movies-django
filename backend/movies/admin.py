@@ -1,8 +1,19 @@
+from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
 from .models import (Category, Genre, Movie, MovieShots, Actor, Rating,
                      RatingStar, Reviews)
+
+
+class MovieAdminForm(forms.ModelForm):
+    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Movie
+        fields = '__all__'
 
 
 @admin.register(Category)
@@ -33,6 +44,7 @@ class MovieAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "category", "url", "draft")
     list_display_links = ("title",)
     list_filter = ("category", "year")
+    form = MovieAdminForm
     search_fields = ("title", "category__name")
     inlines = [MovieShotsInline, ReviewInline]
     save_on_top = True
