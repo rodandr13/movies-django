@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.safestring import mark_safe
 
 from .models import (Category, Genre, Movie, MovieShots, Actor, Rating,
                      RatingStar, Reviews)
@@ -64,14 +65,26 @@ class GenreAdmin(admin.ModelAdmin):
 
 @admin.register(MovieShots)
 class MovieShotsAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "description")
+    list_display = ("id", "title", "description", "get_image")
     list_display_links = ("title",)
+    readonly_fields = ("get_image",)
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} height="100" />')
+
+    get_image.short_description = "Изображение"
 
 
 @admin.register(Actor)
 class ActorAdmin(admin.ModelAdmin):
-    list_display = ("id", "name", "age")
+    list_display = ("id", "name", "age", "get_image")
     list_display_links = ("name",)
+    readonly_fields = ("get_image",)
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} height="100" />')
+
+    get_image.short_description = "Изображение"
 
 
 @admin.register(Rating)
