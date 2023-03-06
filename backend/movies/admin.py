@@ -97,3 +97,7 @@ class RatingAdmin(admin.ModelAdmin):
 class RatingStarAdmin(admin.ModelAdmin):
     list_display = ("id", "value")
     list_display_links = ("value",)
+
+
+admin.site.site_title = "Django Movies"
+admin.site.site_header = "Django Movies"
