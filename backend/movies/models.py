@@ -26,6 +26,9 @@ class Actor(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse("actor_detail", kwargs={"slug": self.name})
+
     class Meta:
         verbose_name = "Актеры и режиссер"
         verbose_name_plural = "Актеры и режиссеры"
@@ -126,7 +129,7 @@ class RatingStar(models.Model):
     value = models.PositiveSmallIntegerField("Значение", default=0)
 
     def __str__(self):
-        return self.value
+        return f"{self.value}"
 
     class Meta:
         verbose_name = "Звезда рейтинга"
