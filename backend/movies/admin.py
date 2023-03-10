@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib import admin
 from django.utils.safestring import mark_safe
+from modeltranslation.admin import TranslationAdmin
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
@@ -9,7 +10,10 @@ from .models import (Category, Genre, Movie, MovieShots, Actor, Rating,
 
 
 class MovieAdminForm(forms.ModelForm):
-    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+    description_ru = forms.CharField(label="Описание",
+                                  widget=CKEditorUploadingWidget())
+    description_en = forms.CharField(label="Description",
+                                  widget=CKEditorUploadingWidget())
 
     class Meta:
         model = Movie
@@ -17,7 +21,7 @@ class MovieAdminForm(forms.ModelForm):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(TranslationAdmin):
     list_display = ("id", "name", "url")
     list_display_links = ("name",)
 
@@ -40,7 +44,7 @@ class MovieShotsInline(admin.TabularInline):
 
 
 @admin.register(Movie)
-class MovieAdmin(admin.ModelAdmin):
+class MovieAdmin(TranslationAdmin):
     list_display = ("id", "title", "category", "url", "draft")
     list_display_links = ("title",)
     list_filter = ("category", "year")
@@ -110,13 +114,13 @@ class ReviewsAdmin(admin.ModelAdmin):
 
 
 @admin.register(Genre)
-class GenreAdmin(admin.ModelAdmin):
+class GenreAdmin(TranslationAdmin):
     list_display = ("id", "name", "url")
     list_display_links = ("name",)
 
 
 @admin.register(MovieShots)
-class MovieShotsAdmin(admin.ModelAdmin):
+class MovieShotsAdmin(TranslationAdmin):
     list_display = ("id", "title", "description", "get_image")
     list_display_links = ("title",)
     readonly_fields = ("get_image",)
@@ -128,7 +132,7 @@ class MovieShotsAdmin(admin.ModelAdmin):
 
 
 @admin.register(Actor)
-class ActorAdmin(admin.ModelAdmin):
+class ActorAdmin(TranslationAdmin):
     list_display = ("id", "name", "age", "get_image")
     list_display_links = ("name",)
     readonly_fields = ("get_image",)
